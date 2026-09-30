@@ -35,7 +35,7 @@ public sealed class TikTokOpenApiSpecBuilderTests
         .BuildServiceProvider();
 
     [Test]
-    public async Task OfficialTablesPreserveContracts()
+    public async ValueTask OfficialTablesPreserveContracts()
     {
         await using ServiceProvider provider = Services();
         JsonObject document = await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(await Documents(provider));
@@ -58,7 +58,7 @@ public sealed class TikTokOpenApiSpecBuilderTests
     }
 
     [Test]
-    public async Task UnlistedEndpointAndNamedObjectAreDerivedFromContent()
+    public async ValueTask UnlistedEndpointAndNamedObjectAreDerivedFromContent()
     {
         await using ServiceProvider provider = Services();
         var docs = new Dictionary<string, string>
@@ -82,7 +82,7 @@ public sealed class TikTokOpenApiSpecBuilderTests
     }
 
     [Test]
-    public async Task UnparseableBodyFailsInsteadOfOmittingRequest()
+    public async ValueTask UnparseableBodyFailsInsteadOfOmittingRequest()
     {
         await using ServiceProvider provider = Services();
         var docs = new Dictionary<string, string>
@@ -99,7 +99,7 @@ public sealed class TikTokOpenApiSpecBuilderTests
     }
 
     [Test]
-    public async Task UnsupportedTypeFailsInsteadOfGuessing()
+    public async ValueTask UnsupportedTypeFailsInsteadOfGuessing()
     {
         await using ServiceProvider provider = Services();
         var docs = await Documents(provider);
