@@ -10,17 +10,18 @@ using System.IO;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Soenneker.TikTok.Runners.OpenApiClient.Utils;
+using System.Threading;
 
 namespace Soenneker.TikTok.Runners.OpenApiClient.Tests;
 
 public sealed class TikTokOpenApiSpecBuilderTests
 {
-    private static async Task<Dictionary<string, string>> Documents(ServiceProvider provider)
+    private static async Task<Dictionary<string, string>> Documents(ServiceProvider provider, CancellationToken cancellationToken = default)
     {
         var documents = new Dictionary<string, string>();
-        foreach (string path in await provider.GetRequiredService<IDirectoryUtil>().GetFilesByExtension(Path.Combine(AppContext.BaseDirectory, "Fixtures"), ".json", false))
+        foreach (string path in await provider.GetRequiredService<IDirectoryUtil>().GetFilesByExtension(Path.Combine(AppContext.BaseDirectory, "Fixtures"), ".json", false, cancellationToken: cancellationToken))
         {
-            JsonNode doc = JsonNode.Parse(await provider.GetRequiredService<IFileUtil>().Read(path))!;
+            JsonNode doc = JsonNode.Parse(await provider.GetRequiredService<IFileUtil>().Read(path, cancellationToken: cancellationToken))!;
             documents.Add(doc["slug"]!.GetValue<string>(), doc["content"]!.GetValue<string>());
         }
         return documents;
@@ -35,10 +36,10 @@ public sealed class TikTokOpenApiSpecBuilderTests
         .BuildServiceProvider();
 
     [Test]
-    public async ValueTask OfficialTablesPreserveContracts()
+    public async ValueTask OfficialTablesPreserveContracts(CancellationToken cancellationToken)
     {
         await using ServiceProvider provider = Services();
-        JsonObject document = await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(await Documents(provider));
+        JsonObject document = await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(await Documents(provider, cancellationToken: cancellationToken), cancellationToken: cancellationToken);
         await Assert.That(document["paths"]!.AsObject().Count).IsEqualTo(5);
         await Assert.That(document["servers"]![0]!["url"]!.GetValue<string>()).IsEqualTo("https://open.tiktokapis.com");
         JsonNode schemas = document["components"]!["schemas"]!;
@@ -58,7 +59,7 @@ public sealed class TikTokOpenApiSpecBuilderTests
     }
 
     [Test]
-    public async ValueTask UnlistedEndpointAndNamedObjectAreDerivedFromContent()
+    public async ValueTask UnlistedEndpointAndNamedObjectAreDerivedFromContent(CancellationToken cancellationToken)
     {
         await using ServiceProvider provider = Services();
         var docs = new Dictionary<string, string>
@@ -76,13 +77,13 @@ public sealed class TikTokOpenApiSpecBuilderTests
                 <tr><td>revision</td><td>int64</td><td>New revision.</td></tr></table>
                 """
         };
-        JsonObject document = await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs);
+        JsonObject document = await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs, cancellationToken: cancellationToken);
         await Assert.That(document["paths"]!["/v3/widgets/"]!["patch"]!["operationId"]!.GetValue<string>()).IsEqualTo("PatchV3Widgets");
         await Assert.That(document["components"]!["schemas"]!["PatchV3WidgetsRequest"]!["properties"]!["settings"]!["properties"]!["enabled"]!["type"]!.GetValue<string>()).IsEqualTo("boolean");
     }
 
     [Test]
-    public async ValueTask UnparseableBodyFailsInsteadOfOmittingRequest()
+    public async ValueTask UnparseableBodyFailsInsteadOfOmittingRequest(CancellationToken cancellationToken)
     {
         await using ServiceProvider provider = Services();
         var docs = new Dictionary<string, string>
@@ -93,19 +94,19 @@ public sealed class TikTokOpenApiSpecBuilderTests
                 <h2>Response</h2><pre>{"accepted": true}</pre>
                 """
         };
-        try { await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs); }
+        try { await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs, cancellationToken: cancellationToken); }
         catch (InvalidOperationException e) when (e.Message.Contains("Unable to parse documented Request body", StringComparison.Ordinal)) { return; }
         throw new Exception("An unparseable body must fail generation.");
     }
 
     [Test]
-    public async ValueTask UnsupportedTypeFailsInsteadOfGuessing()
+    public async ValueTask UnsupportedTypeFailsInsteadOfGuessing(CancellationToken cancellationToken)
     {
         await using ServiceProvider provider = Services();
-        var docs = await Documents(provider);
+        var docs = await Documents(provider, cancellationToken: cancellationToken);
         const string slug = "content-posting-api-reference-direct-post";
         docs[slug] = docs[slug].Replace("int64", "unrecognized_type", StringComparison.Ordinal);
-        try { await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs); }
+        try { await provider.GetRequiredService<TikTokOpenApiSpecBuilder>().BuildFromDocuments(docs, cancellationToken: cancellationToken); }
         catch (InvalidOperationException e) when (e.Message.Contains("Unsupported documented type", StringComparison.Ordinal)) { return; }
         throw new Exception("An unknown field type must fail generation.");
     }
