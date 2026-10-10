@@ -29,7 +29,7 @@
         <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.949" />
         <PackageReference Include="Soenneker.Playwrights.Crawler" Version="4.0.303" />
         <PackageReference Include="Soenneker.AngleSharp.Parser" Version="4.0.95" />
-        <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="4.0.1409" />
+        <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="4.0.1410" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
         <PackageReference Include="Soenneker.Kiota.Util" Version="4.0.144" />
         <PackageReference Include="Soenneker.Managers.Runners" Version="4.0.2605" />
