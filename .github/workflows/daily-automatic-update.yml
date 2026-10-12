@@ -45,7 +45,7 @@ jobs:
         run: dotnet build src/Soenneker.TikTok.Runners.OpenApiClient/Soenneker.TikTok.Runners.OpenApiClient.csproj --configuration Release --no-restore
 
       - name: Log in to NuGet
-        uses: NuGet/login@v1
+        uses: soenneker/nuget-resilient-login@v2
         id: nuget-login
         with:
           user: soenneker
