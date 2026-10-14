@@ -25,14 +25,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Utils.File" Version="4.0.2314" />
-        <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.962" />
-        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="4.0.319" />
-        <PackageReference Include="Soenneker.AngleSharp.Parser" Version="4.0.108" />
-        <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="4.0.1437" />
+        <PackageReference Include="Soenneker.Utils.File" Version="4.0.2315" />
+        <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.963" />
+        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="4.0.320" />
+        <PackageReference Include="Soenneker.AngleSharp.Parser" Version="4.0.109" />
+        <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="4.0.1438" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.13" />
-        <PackageReference Include="Soenneker.Kiota.Util" Version="4.0.159" />
-        <PackageReference Include="Soenneker.Managers.Runners" Version="4.0.2630" />
-        <PackageReference Include="Soenneker.OpenApi.Fixer" Version="4.0.391" />
+        <PackageReference Include="Soenneker.Kiota.Util" Version="4.0.160" />
+        <PackageReference Include="Soenneker.Managers.Runners" Version="4.0.2631" />
+        <PackageReference Include="Soenneker.OpenApi.Fixer" Version="4.0.392" />
     </ItemGroup>
 </Project>
