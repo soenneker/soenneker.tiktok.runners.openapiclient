@@ -27,12 +27,12 @@
     <ItemGroup>
         <PackageReference Include="Soenneker.Utils.File" Version="11.0.2328" />
         <PackageReference Include="Soenneker.Utils.Directory" Version="11.0.970" />
-        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="11.0.342" />
+        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="11.0.343" />
         <PackageReference Include="Soenneker.AngleSharp.Parser" Version="11.0.120" />
         <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="11.0.1451" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0-rc.3.26522.148" />
         <PackageReference Include="Soenneker.Kiota.Util" Version="11.0.174" />
         <PackageReference Include="Soenneker.Managers.Runners" Version="11.0.2659" />
-        <PackageReference Include="Soenneker.OpenApi.Fixer" Version="11.0.407" />
+        <PackageReference Include="Soenneker.OpenApi.Fixer" Version="11.0.408" />
     </ItemGroup>
 </Project>
