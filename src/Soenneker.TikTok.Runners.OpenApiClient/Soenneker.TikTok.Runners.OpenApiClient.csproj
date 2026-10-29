@@ -25,7 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Utils.File" Version="11.0.2328" />
+        <PackageReference Include="Soenneker.Utils.File" Version="11.0.2329" />
         <PackageReference Include="Soenneker.Utils.Directory" Version="11.0.970" />
         <PackageReference Include="Soenneker.Playwrights.Crawler" Version="11.0.343" />
         <PackageReference Include="Soenneker.AngleSharp.Parser" Version="11.0.120" />
