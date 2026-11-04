@@ -110,7 +110,7 @@ public sealed class TikTokOpenApiSpecBuilder(IAngleSharpParser angleSharpParser,
                 throw new InvalidOperationException($"Unsupported HTTP method in {slug}: {method}");
             string name = string.Concat(Regex.Matches(method + " " + path, "[A-Za-z0-9]+").Select(m => char.ToUpperInvariant(m.Value[0]) + m.Value[1..]));
             string url = DocsBase + slug;
-            sources.Add((System.Text.Json.Nodes.JsonNode?)new JsonObject { ["url"] = url, ["sha256"] = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(content))).ToLowerInvariant() });
+            sources.Add((System.Text.Json.Nodes.JsonNode?)new JsonObject { ["url"] = url, ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(content))) });
             using var html = await parser.ParseDocumentAsync(content, cancellationToken);
             List<(string Section, string Code)> examples = ReadExamples(html);
             JsonObject? request = ReadContract(tables, examples, "Request", allTables.Values.SelectMany(t => t).ToList());
