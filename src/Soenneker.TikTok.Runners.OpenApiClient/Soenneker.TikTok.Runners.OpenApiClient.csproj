@@ -25,7 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="11.0.370" />
+        <PackageReference Include="Soenneker.Playwrights.Crawler" Version="11.0.371" />
         <PackageReference Include="Soenneker.Extensions.LoggerConfiguration" Version="11.0.1466" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
         <PackageReference Include="Soenneker.Kiota.Util" Version="11.0.190" />
